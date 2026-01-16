@@ -43,6 +43,8 @@ export default function Header() {
              <span>Login</span>
           </div>
 
+          <Link to="/orders" className="hover:bg-blue-700 px-3 py-1 rounded transition text-sm">My Orders</Link>
+
           <Link to="/cart" className="flex items-center gap-2 hover:bg-blue-700 px-3 py-1 rounded transition relative">
             <div className="relative">
                 <ShoppingCart size={20} />
