@@ -11,7 +11,7 @@ export default function Checkout() {
   const { items, total_price } = useSelector((state) => state.cart);
   
   const [address, setAddress] = useState({
-     name: 'Siddharth Nama', // Mock default
+     name: 'Siddharth Nama',
      phone: '9876543210',
      street: '123 Tech Park',
      city: 'Bengaluru',
@@ -19,7 +19,7 @@ export default function Checkout() {
      zip: '560001',
   });
   
-  const [step, setStep] = useState(2); // 1: Login (Skipped), 2: Address, 3: Summary, 4: Payment
+  const [step, setStep] = useState(2);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -35,8 +35,6 @@ export default function Checkout() {
     try {
         const fullAddress = `${address.name}, ${address.street}, ${address.city}, ${address.state} - ${address.zip}. Phone: ${address.phone}`;
         const res = await axios.post('orders/', { address: fullAddress });
-        
-        // Success
         navigate(`/order-success/${res.data.id}`);
     } catch (error) {
         console.error("Order placement failed", error);
@@ -52,7 +50,6 @@ export default function Checkout() {
     <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row gap-4 bg-gray-100 min-h-screen">
        <div className="flex-grow space-y-4">
            
-           {/* Step 1: Login */}
            <div className="bg-white p-4 shadow-sm flex justify-between items-center opacity-70">
               <div className="flex gap-4">
                  <span className="bg-gray-200 text-blue-600 w-6 h-6 flex items-center justify-center text-xs font-bold rounded-sm">1</span>
@@ -64,7 +61,6 @@ export default function Checkout() {
               <button className="text-blue-600 font-medium text-sm border border-blue-200 px-4 py-1 uppercase">Change</button>
            </div>
 
-           {/* Step 2: Address */}
            <div className="bg-white shadow-sm">
                <div className={`p-4 ${step === 2 ? 'bg-blue-600 text-white' : 'bg-white'} flex justify-between items-center`}>
                   <div className="flex gap-4 items-center">
@@ -82,7 +78,7 @@ export default function Checkout() {
                                    <span className="font-bold">{address.name}</span>
                                    <span className="bg-gray-200 text-gray-500 text-[10px] px-2 py-0.5 rounded uppercase font-bold">Home</span>
                                    <span className="font-bold">{address.phone}</span>
-                               </div>
+                                </div>
                                <p className="text-sm text-gray-600">
                                    {address.street}, {address.city}, {address.state} - <span className="font-bold">{address.zip}</span>
                                </p>
@@ -105,7 +101,6 @@ export default function Checkout() {
                )}
            </div>
 
-           {/* Step 3: Order Summary */}
            <div className="bg-white shadow-sm">
                <div className={`p-4 ${step === 3 ? 'bg-blue-600 text-white' : 'bg-white'} flex justify-between items-center`}>
                   <div className="flex gap-4 items-center">
@@ -149,7 +144,6 @@ export default function Checkout() {
                )}
            </div>
            
-           {/* Step 4: Payment Options (Disabled/Static) */}
            <div className="bg-white p-4 shadow-sm flex items-center gap-4 text-gray-400">
                <span className="bg-gray-200 text-gray-500 w-6 h-6 flex items-center justify-center text-xs font-bold rounded-sm">4</span>
                <h3 className="uppercase font-bold text-sm">Payment Options</h3>
@@ -157,7 +151,6 @@ export default function Checkout() {
 
        </div>
 
-       {/* Price Details Sidebar */}
        <div className="w-full md:w-80 flex-shrink-0">
           <div className="bg-white shadow-sm sticky top-20">
               <div className="p-4 border-b">

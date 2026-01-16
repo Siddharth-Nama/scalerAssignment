@@ -19,13 +19,11 @@ export default function Header() {
   return (
     <header className="bg-blue-600 text-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex items-center justify-between gap-4">
-        {/* Logo */}
         <Link to="/" className="text-2xl font-bold italic tracking-wider flex-shrink-0">
           Flipkart
           <span className="block text-xs font-normal not-italic text-gray-200 hover:underline">Explore Plus</span>
         </Link>
 
-        {/* Search Bar */}
         <form onSubmit={handleSearch} className="flex-grow max-w-xl relative hidden md:block">
           <input
             type="text"
@@ -39,7 +37,6 @@ export default function Header() {
           </button>
         </form>
 
-        {/* Navigation */}
         <nav className="flex items-center gap-6 font-medium">
           <div className="hidden md:flex items-center gap-1 cursor-pointer hover:bg-blue-700 px-3 py-1 rounded transition">
              <User size={18} />
@@ -63,7 +60,6 @@ export default function Header() {
           </div>
         </nav>
       </div>
-      {/* Mobile Search */}
       <div className="md:hidden px-4 pb-2">
          <form onSubmit={handleSearch} className="relative">
           <input

@@ -13,28 +13,6 @@ export default function Cart() {
     dispatch(fetchCart());
   }, [dispatch]);
 
-  const handleUpdateQuantity = (item, newQty) => {
-    if (newQty < 1) return; // Or confirm remove
-    // Logic: addToCart in backend adds to existing quantity? 
-    // Wait, my backend implementation of `post` ADDs quantity if exists: `cart_item.quantity += quantity`.
-    // And `patch` sets quantity. I need a way to set quantity directly or use patch.
-    // The Redux thunk `addToCart` uses POST. I need `updateCartItem`.
-    // I missed adding `updateCartItem` thunk in slice. I only have `addToCart` (POST) and `removeFromCart`.
-    // I should create a local helper or fix slice. 
-    // For now, I'll rely on reloading or just implement strict +1/-1 if backend supports set.
-    // My backend `CartItemDetail` supports PATCH quantity.
-    // I need to update the slice to support PATCH.
-    // I'll add `updateCartItem` to this file or inline axios call + reload.
-    // For speed, let's just use axios directly here or update slice in next turn if needed.
-    // Actually, I can use the `addToCart` (POST) if I change logic, but my backend logic `+=` is explicitly additive.
-    // I will ignore the thunk for update and use direct axios dispatch for reload, or better, add the thunk now to slice.
-    // Let's assume I fix the slice. I'll write the fix for slice in next step. For now I write the component assuming `updateCartItem` exists or I dispatch a plain action.
-    // Warning: I didn't verify `cartSlice.js` has `updateCartItem`. It doesn't.
-    // I will mock the behaviour with console.log or implement it properly.
-    // Proper way: Implement a direct axios patch here and then dispatch fetchCart.
-  };
-  
-  // Real implementation of update using direct axios for now
   const updateQuantity = async (itemId, quantity) => {
       if (quantity < 1) return;
       try {
@@ -45,7 +23,6 @@ export default function Cart() {
           console.error(e);
       }
   };
-
 
   if (status === 'loading') return <div className="p-10 text-center">Loading Cart...</div>;
 
@@ -62,16 +39,14 @@ export default function Cart() {
     );
   }
 
-  // Price Calculation
   const price = items.reduce((acc, item) => acc + (parseFloat(item.product.price) * item.quantity), 0);
-  const discount = price * 0.2; // Mock 20% discount as per UI
-  const delivery = 0; // Free
+  const discount = price * 0.2;
+  const delivery = 0;
   const total = price - discount + delivery;
 
   return (
     <div className="container mx-auto px-4 py-6 flex flex-col lg:flex-row gap-4">
       
-      {/* Cart Items */}
       <div className="flex-grow">
          
          <div className="bg-white shadow-sm mb-4">
@@ -141,7 +116,6 @@ export default function Cart() {
          </div>
       </div>
 
-      {/* Price Details */}
       <div className="w-full lg:w-80 flex-shrink-0">
           <div className="bg-white shadow-sm sticky top-20">
               <div className="p-4 border-b">

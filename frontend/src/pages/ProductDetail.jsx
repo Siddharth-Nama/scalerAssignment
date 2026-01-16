@@ -30,12 +30,10 @@ export default function ProductDetail() {
   if (loading) return <div className="p-10 text-center">Loading...</div>;
   if (!product) return <div className="p-10 text-center">Product not found</div>;
 
-  // Mocking multiple images for carousel demonstration
   const images = [product.image, product.image, product.image, product.image];
 
   const handleAddToCart = () => {
     dispatch(addToCart({ product_id: product.id, quantity: 1 }));
-    // Optional: Show toast or feedback
   };
 
   const handleBuyNow = () => {
@@ -46,10 +44,8 @@ export default function ProductDetail() {
   return (
     <div className="container mx-auto px-4 py-6 bg-white shadow-sm mt-4">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-        {/* Left: Image Carousel & Actions */}
         <div className="md:col-span-5 relative">
           <div className="flex flex-col-reverse md:flex-row gap-4">
-            {/* Thumbnails */}
             <div className="flex md:flex-col gap-2 overflow-auto">
               {images.map((img, idx) => (
                 <div 
@@ -62,7 +58,6 @@ export default function ProductDetail() {
               ))}
             </div>
             
-            {/* Main Image */}
             <div className="flex-grow border border-gray-100 p-4 flex items-center justify-center h-96 relative">
                <button className="absolute top-4 right-4 p-2 rounded-full border border-gray-200 text-gray-400 hover:text-red-500 bg-white shadow-sm">
                  ♥
@@ -93,7 +88,6 @@ export default function ProductDetail() {
           </div>
         </div>
 
-        {/* Right: Details */}
         <div className="md:col-span-7">
            <h1 className="text-xl font-medium mb-2">{product.title}</h1>
            
@@ -110,7 +104,6 @@ export default function ProductDetail() {
              <span className="text-green-600 font-bold text-sm">20% off</span>
            </div>
 
-           {/* Offers */}
            <div className="mb-6">
              <h3 className="font-bold text-sm mb-2">Available offers</h3>
              <ul className="text-sm space-y-2">
@@ -125,8 +118,7 @@ export default function ProductDetail() {
              </ul>
            </div>
 
-            {/* Description / Specs */}
-           <div className="border p-4">
+            <div className="border p-4">
              <h3 className="font-bold text-lg mb-4 border-b pb-2">Product Description</h3>
              <p className="text-gray-700 leading-relaxed text-sm">
                {product.description}
