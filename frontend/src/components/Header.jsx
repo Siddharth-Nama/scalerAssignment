@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { ShoppingCart, Search, User } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../store/authSlice';
+import { ShoppingCart, Search, User, LogOut } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Header() {
@@ -8,6 +9,7 @@ export default function Header() {
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -38,12 +40,23 @@ export default function Header() {
         </form>
 
         <nav className="flex items-center gap-6 font-medium">
-          <div className="hidden md:flex items-center gap-1 cursor-pointer hover:bg-blue-700 px-3 py-1 rounded transition">
-             <User size={18} />
-             <span>Login</span>
-          </div>
+          {useSelector(state => state.auth.isAuthenticated) ? (
+             <div className="flex items-center gap-4">
+                 <span className="hidden md:block text-sm">Hello, User</span>
+                 <button onClick={() => dispatch(logout())} className="flex items-center gap-1 hover:bg-blue-700 px-3 py-1 rounded transition">
+                    <LogOut size={18} />
+                    <span>Logout</span>
+                 </button>
+             </div>
+          ) : (
+            <Link to="/login" className="flex items-center gap-1 cursor-pointer hover:bg-blue-700 px-3 py-1 rounded transition bg-white text-blue-600 font-bold">
+               <User size={18} />
+               <span>Login</span>
+            </Link>
+          )}
 
           <Link to="/orders" className="hover:bg-blue-700 px-3 py-1 rounded transition text-sm">My Orders</Link>
+          <Link to="/wishlist" className="hover:bg-blue-700 px-3 py-1 rounded transition text-sm">Wishlist</Link>
 
           <Link to="/cart" className="flex items-center gap-2 hover:bg-blue-700 px-3 py-1 rounded transition relative">
             <div className="relative">

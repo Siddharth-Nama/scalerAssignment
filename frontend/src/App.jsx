@@ -7,6 +7,9 @@ import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
 import OrderSuccess from './pages/OrderSuccess';
 import OrderHistory from './pages/OrderHistory';
+import Login from './pages/Login';
+import Signup from './pages/Signup';
+import Wishlist from './pages/Wishlist';
 
 function App() {
   return (
@@ -21,6 +24,9 @@ function App() {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/order-success/:id" element={<OrderSuccess />} />
             <Route path="/orders" element={<OrderHistory />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/wishlist" element={<Wishlist />} />
           </Routes>
         </main>
         <Footer />

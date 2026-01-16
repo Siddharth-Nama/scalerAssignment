@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../store/cartSlice';
+import { toggleWishlist } from '../store/wishlistSlice'; // Import toggle action
 import axios from '../utils/axios';
-import { ShoppingCart, Zap, Star } from 'lucide-react';
+import { ShoppingCart, Zap, Star, Heart } from 'lucide-react'; // Import Heart
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -12,6 +13,10 @@ export default function ProductDetail() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeImage, setActiveImage] = useState(0);
+
+  // Redux Selectors
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -32,6 +37,9 @@ export default function ProductDetail() {
 
   const images = [product.image, product.image, product.image, product.image];
 
+  // Wishlist Check
+  const isInWishlist = wishlistItems.some(item => (item.product_details?.id || item.product) === product.id);
+
   const handleAddToCart = () => {
     dispatch(addToCart({ product_id: product.id, quantity: 1 }));
   };
@@ -40,6 +48,15 @@ export default function ProductDetail() {
     dispatch(addToCart({ product_id: product.id, quantity: 1 }));
     navigate('/cart');
   };
+
+  const handleWishlistClick = () => {
+      if (!isAuthenticated) {
+          alert("Please login to use Wishlist");
+          return;
+      }
+      dispatch(toggleWishlist(product));
+  };
+
 
   return (
     <div className="container mx-auto px-4 py-6 bg-white shadow-sm mt-4">
@@ -59,8 +76,14 @@ export default function ProductDetail() {
             </div>
             
             <div className="flex-grow border border-gray-100 p-4 flex items-center justify-center h-96 relative">
-               <button className="absolute top-4 right-4 p-2 rounded-full border border-gray-200 text-gray-400 hover:text-red-500 bg-white shadow-sm">
-                 ♥
+               <button 
+                  className="absolute top-4 right-4 p-2 rounded-full border border-gray-200 text-gray-400 hover:text-red-500 bg-white shadow-sm hover:shadow-md transition-all scale-100 hover:scale-110"
+                  onClick={handleWishlistClick}
+               >
+                 <Heart 
+                    size={20} 
+                    className={`${isInWishlist ? 'fill-red-500 text-red-500' : 'text-gray-300'}`} 
+                 />
                </button>
                {images[activeImage] ? (
                   <img src={images[activeImage]} alt={product.title} className="max-h-full max-w-full object-contain" />
@@ -73,14 +96,14 @@ export default function ProductDetail() {
           <div className="flex gap-4 mt-6">
             <button 
               onClick={handleAddToCart}
-              className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-3 uppercase flex items-center justify-center gap-2"
+              className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-white font-bold py-3 uppercase flex items-center justify-center gap-2 shadow-sm"
             >
               <ShoppingCart fill="currentColor" size={20} />
               Add to Cart
             </button>
             <button 
               onClick={handleBuyNow}
-              className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 uppercase flex items-center justify-center gap-2"
+              className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 uppercase flex items-center justify-center gap-2 shadow-sm"
             >
               <Zap fill="currentColor" size={20} />
               Buy Now

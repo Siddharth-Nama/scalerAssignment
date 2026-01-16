@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
     'users',
     'cart',
     'orders',
+    'wishlist',
 ]
 
 MIDDLEWARE = [
@@ -133,5 +136,16 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication', # Keep session for browsable API/admin if needed
+    ),
+}
+
+SIMPLEJWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1), # Long lifetime for dev
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}
